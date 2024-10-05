@@ -3,11 +3,12 @@ const { v4: uuidv4 } = require('uuid'); // To generate unique IDs
 const jwt = require('jsonwebtoken'); // For JWT (bonus)
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+require('dotenv').config()
 // const myPlaintextPassword = 's0/\/\P4$$w0rD';
 // const someOtherPlaintextPassword = 'not_bacon';
 
 // Mock secret for JWT
-const SECRET_KEY = "mysecretkey";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // Registration
 exports.register = async (req, res) => {
