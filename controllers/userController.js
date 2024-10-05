@@ -12,9 +12,9 @@ exports.register = (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const existingUser = userModel.findUserByUsername(username);
+  const existingUser = userModel.findUserByEmail(email);
   if (existingUser) {
-    return res.status(400).json({ message: "Username already exists" });
+    return res.status(400).json({ message: "Email already exists" });
   }
 
 
