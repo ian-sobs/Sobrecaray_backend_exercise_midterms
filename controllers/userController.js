@@ -3,11 +3,12 @@ const { v4: uuidv4 } = require('uuid'); // To generate unique IDs
 const jwt = require('jsonwebtoken'); // For JWT (bonus)
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+require('dotenv').config()
 // const myPlaintextPassword = 's0/\/\P4$$w0rD';
 // const someOtherPlaintextPassword = 'not_bacon';
 
 // Mock secret for JWT
-const SECRET_KEY = "mysecretkey";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // Registration
 exports.register = async (req, res) => {
@@ -35,25 +36,35 @@ exports.register = async (req, res) => {
 };
 
     // Login
-    exports.login = async (req, res) => {
-        const { email, password } = req.body;
-        const user = userModel.findUserByEmail(email);
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+    const user = userModel.findUserByEmail(email);
     
-        if (!email) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
+    if (!email) {
+        return res.status(400).json({ message: "Invalid credentials" });
+    }
         
-        const match = await bcrypt.compare(password, user.passwordHash);
+    const match = await bcrypt.compare(password, user.passwordHash);
 
-        if(match) {
-            //login
+    if(match) {
+        //login
 
-            // Mock Token (or JWT if going for bonus)
-            const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        // Mock Token (or JWT if going for bonus)
+    const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
         
-            res.json({ token });
-        }
-        else {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
-    };
+        res.json({ token });
+    }
+    else {
+        return res.status(400).json({ message: "Invalid credentials" });
+    }
+};
+
+// Profile (Protected Route)
+exports.getProfile = (req, res) => {
+    const user = userModel.findUserById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+  
+    res.json({ id: user.id, username: user.username, email: user.email });
+};
