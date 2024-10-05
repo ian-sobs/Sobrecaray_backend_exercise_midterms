@@ -21,23 +21,18 @@ exports.register = async (req, res) => {
         return res.status(400).json({ message: "Email already exists" });
     }
 
-    bcrypt.hash(password, saltRounds, function(err, hash) {
-        // Store hash in your password DB.
-        try{
-            const newUser = {
-                id: uuidv4(),
-                username: username,
-                passwordHash: hash,
-                email: email
-            };
-    
-            userModel.addUser(newUser);
-            res.status(201).json({ message: "User registered successfully" });
-        }
-        catch(err){
-            res.status(202).json({ message: "Failed to hash password. Please retry registering." });
-        }
-    });
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+    const newUser = {
+        id: uuidv4(),
+        username: username,
+        passwordHash: hashedPassword,
+        email: email
+    };
+
+    userModel.addUser(newUser);
+    res.status(201).json({ message: "User registered successfully" });
+};
 
     // Login
     exports.login = (req, res) => {
@@ -57,4 +52,3 @@ exports.register = async (req, res) => {
     
         res.json({ token });
     };
-};
