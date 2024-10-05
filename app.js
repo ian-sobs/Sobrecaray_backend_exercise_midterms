@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
 const loggingMiddleware = require('./middleware/loggingMiddleware');  // Import logging middleware
 const rateLimit = require("express-rate-limit");
