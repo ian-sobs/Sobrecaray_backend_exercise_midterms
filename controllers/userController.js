@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
         //login
 
         // Mock Token (or JWT if going for bonus)
-    const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
         
         res.json({ token });
     }
