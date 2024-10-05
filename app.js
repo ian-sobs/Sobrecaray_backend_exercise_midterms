@@ -5,6 +5,14 @@ const loggingMiddleware = require('./middleware/loggingMiddleware');  // Import 
 require('dotenv').config()
 const app = express();
 const PORT = process.env.PORT || 3000;
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+  });
+
+app.use(limiter);
 
 // Middleware
 app.use(bodyParser.json());
