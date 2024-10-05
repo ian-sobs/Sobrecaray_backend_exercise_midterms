@@ -10,7 +10,7 @@ const saltRounds = 10;
 const SECRET_KEY = "mysecretkey";
 
 // Registration
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
     const { username, password, email } = req.body;
     if (!username || !password || !email) {
         return res.status(400).json({ message: "All fields are required" });
@@ -26,9 +26,9 @@ exports.register = (req, res) => {
         try{
             const newUser = {
                 id: uuidv4(),
-                username,
-                hash,
-                email
+                username: username,
+                passwordHash: hash,
+                email: email
             };
     
             userModel.addUser(newUser);
@@ -38,4 +38,23 @@ exports.register = (req, res) => {
             res.status(202).json({ message: "Failed to hash password. Please retry registering." });
         }
     });
+
+    // Login
+    exports.login = (req, res) => {
+        const { email, password } = req.body;
+        const user = userModel.findUserByEmail(email);
+    
+        if (!email) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
+
+        bcrypt.compare(password, user.passwordHash, function(err, result) {
+            // result == true
+        });
+    
+        // Mock Token (or JWT if going for bonus)
+        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+    
+        res.json({ token });
+    };
 };
