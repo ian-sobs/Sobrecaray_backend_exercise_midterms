@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
 const loggingMiddleware = require('./middleware/loggingMiddleware');  // Import logging middleware
 const rateLimit = require("express-rate-limit");
@@ -15,8 +14,8 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-// Middleware
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json()) // To parse the incoming requests with JSON payloads
 
 app.use(loggingMiddleware);  // Use the logging middleware for all routes
 
