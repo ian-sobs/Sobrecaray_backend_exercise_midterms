@@ -35,20 +35,25 @@ exports.register = async (req, res) => {
 };
 
     // Login
-    exports.login = (req, res) => {
+    exports.login = async (req, res) => {
         const { email, password } = req.body;
         const user = userModel.findUserByEmail(email);
     
         if (!email) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
+        
+        const match = await bcrypt.compare(password, user.passwordHash);
 
-        bcrypt.compare(password, user.passwordHash, function(err, result) {
-            // result == true
-        });
-    
-        // Mock Token (or JWT if going for bonus)
-        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
-    
-        res.json({ token });
+        if(match) {
+            //login
+
+            // Mock Token (or JWT if going for bonus)
+            const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        
+            res.json({ token });
+        }
+        else {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
     };
