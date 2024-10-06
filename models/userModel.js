@@ -28,19 +28,21 @@ const schema = Joi.object({
       .max(30)
       .required()
       .messages({
-        'string.alphanum': "Username must be alphanumeric.",
+        'string.alphanum': "Username must only contain alphanumeric characters.",
         'string.min': "Username must be at least 3 characters long",
         'string.max': 'Username must be less than 30 characters'}),
 
   password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]{3,30}$'))
       .required()
-      .messages({'any.only': 'Password must be 3 to 30 characters long.'}),
+      .messages({'string.min': 'Password must be at least 3 characters long.',
+        'string.max' : 'Password must be less than 30 characters.'
+      }),
 
   email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
-      .messages({'any.only': 'Invalid email'})
+      .messages({'string.email': 'Invalid email'})
 })
 
 
