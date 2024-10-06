@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
     const { error, value } = userModel.schema.validate(req.body)
 
     if(error){
-        return res.status(400).json({ message: error });
+        return res.status(400).json({ message: error.details['message'] });
     }
 
     const existingUser = userModel.findUserByEmail(email);
