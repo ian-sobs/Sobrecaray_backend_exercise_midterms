@@ -38,13 +38,13 @@ exports.register = async (req, res) => {
     // Login
 exports.login = async (req, res) => {
     const { email, password } = req.body;
+    const user = userModel.findUserByEmail(email);
     
-    
-    if (!email) {
+    if (!email || !user) {
         return res.status(400).json({ message: "Invalid credentials" });
     }
     
-    const user = userModel.findUserByEmail(email);
+    
     const match = await bcrypt.compare(password, user.passwordHash);
 
     if(match) {
