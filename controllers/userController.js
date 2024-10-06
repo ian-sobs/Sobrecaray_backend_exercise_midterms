@@ -12,9 +12,14 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 // Registration
 exports.register = async (req, res) => {
-    const { username, password, email } = req.body;
-    if (!username || !password || !email) {
-        return res.status(400).json({ message: "All fields are required" });
+    // const { username, password, email } = req.body;
+    // if (!username || !password || !email) {
+    //     return res.status(400).json({ message: "All fields are required" });
+    // }
+    const { error, value } = userModel.schema.validate(req.body)
+
+    if(error){
+        return res.status(400).json({ message: error });
     }
 
     const existingUser = userModel.findUserByEmail(email);
