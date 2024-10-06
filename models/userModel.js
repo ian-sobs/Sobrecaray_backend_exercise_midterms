@@ -27,7 +27,10 @@ const schema = Joi.object({
       .min(3)
       .max(30)
       .required()
-      .rule({message: 'Username must contain only alphanumeric characters and at least 3 characters long but no more than 30.'}),
+      .messages({
+        'string.alphanum': "Username must be alphanumeric.",
+        'string.min': "Username must be at least 3 characters long",
+        'string.max': 'Username must be less than 30 characters'}),
 
   password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]{3,30}$'))
