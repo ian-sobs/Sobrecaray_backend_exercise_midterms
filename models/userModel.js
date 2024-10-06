@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const timestamp = new Date().toISOString();
 const filePath = path.join('data', 'users.json');
 
 let users = [];
@@ -29,7 +29,7 @@ module.exports = {
       if (err) {
         console.error(err);
       } else {
-        console.log('New user added to database');
+        console.log(`[${timestamp}] New user added to database`);
       }
     });
   },
