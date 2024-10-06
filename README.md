@@ -14,7 +14,7 @@ I recommend using Postman to simulate http requests and responses.
 
 http://localhost:3000/api/register  | POST
 
-Send request as a raw JSON file. Sample below:
+Send request as a raw JSON. Sample below:
 
 ```
 {
@@ -28,7 +28,7 @@ Send request as a raw JSON file. Sample below:
 
 http://localhost:3000/api/login  | POST
 
-Send request as a raw JSON file. Sample below (use exact format):
+Send request as a raw JSON. Sample below (use exact format):
 
 ```
 {
