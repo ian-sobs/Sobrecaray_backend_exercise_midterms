@@ -12,11 +12,12 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 // Registration
 exports.register = async (req, res) => {
-    const { error, value } = userModel.schema.validate(req.body)
+    const { error, value } = userModel.schema.validate(req.body, { abortEarly: false })
 
     //console.log("schemaValue: ", value)
     if(error){
-        return res.status(400).json({message: error.details[0].message});
+        console.log("registration fail: ", error.details)
+        return res.status(400).json(error.details);
     }
 
     const email = value.email;
