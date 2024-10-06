@@ -12,10 +12,17 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 // Registration
 exports.register = async (req, res) => {
-    const { username, password, email } = req.body;
-    if (!username || !password || !email) {
-        return res.status(400).json({ message: "All fields are required" });
+    const { error, value } = userModel.schema.validate(req.body, { abortEarly: false })
+
+    //console.log("schemaValue: ", value)
+    if(error){
+        console.log("registration fail: ", error.details)
+        return res.status(400).json(error.details);
     }
+
+    const email = value.email;
+    const username = value.username;
+    const password = value.password;
 
     const existingUser = userModel.findUserByEmail(email);
     if (existingUser) {
