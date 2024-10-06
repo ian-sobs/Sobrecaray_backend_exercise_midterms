@@ -1,7 +1,7 @@
 const express = require('express');
 const userRoutes = require('./routes/user');
 const loggingMiddleware = require('./middleware/loggingMiddleware');  // Import logging middleware
-const limiter = require("./middleware/rateLimitMiddleware");
+const {limiter} = require("./middleware/rateLimitMiddleware");
 require('dotenv').config()
 const app = express();
 const PORT = process.env.PORT || 3000;
