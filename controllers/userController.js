@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
 
     //console.log("schemaValue: ", value)
     if(error){
-        console.log("registration fail: ", error.details)
+        //console.log("registration fail: ", error.details)
         return res.status(400).json(error.details);
     }
 
