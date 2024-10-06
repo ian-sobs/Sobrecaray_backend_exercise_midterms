@@ -35,12 +35,12 @@ const schema = Joi.object({
   password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]{3,30}$'))
       .required()
-      .rule({message: 'Password must be 3 to 30 characters long.'}),
+      .messages({'any.only': 'Password must be 3 to 30 characters long.'}),
 
   email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
-      .rule({message: 'Invalid email'})
+      .messages({'any.only': 'Invalid email'})
 })
 
 
